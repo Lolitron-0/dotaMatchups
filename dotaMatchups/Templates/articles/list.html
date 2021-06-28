@@ -1,0 +1,300 @@
+{% extends 'base.html' %}
+
+{% block title %}Matches{% endblock %}
+
+
+
+{% block content %}
+
+{% if data %}
+
+<div style="display: block; width: 100%;">
+	<a style="position: relative; top:50%; left: 0; color: rgb(255,255,255,0.4); text-align: left; font-family: Lucida Console, Courier, monospace;" href="{% url 'articles:main' %}">DotaMatchups</a>
+	<h1 style="position: relative; bottom:50%;  color: white;text-align: center; font-family: Lucida Console, Courier, monospace;">MATCHES FOUND</h1>
+</div>
+<br>
+<div style=" display: grid;">
+	<table class="table table-dark table-stripped" style=" width: max-content; justify-self: center; align-self: center; ">
+		<thead>
+		<tr>
+			<th scope="col">Winrate left</th>
+			<th scope="col">Winrate right</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			{% if winrateLeft > 50 %}
+			<th style=" color: green; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateLeft}}</th>
+			<th style=" color: #bf0000; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateRight}}</th>
+			{% else %}
+			<th style=" color: #bf0000; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateLeft}}</th>
+			<th style=" color: green; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateRight}}</th>
+			{% endif %}
+		</tbody>
+	</table>
+
+	<div style="display: inline; position: relative; left: 0; right: 0; ">
+		<button type="button" id="1" class="btn btn-outline-light" >5:00</button>
+		<button type="button" id="2" class="btn btn-outline-light" >10:00</button>
+		<button type="button" id="3" class="btn btn-outline-light">15:00</button>
+		<button type="button" id="4" class="btn btn-outline-light">>20:00</button>
+
+	</div>
+	</div>
+	<br><br>
+{% for matchup in data %}
+<div style="background-color: #212529; height: max-content; ">
+	{% for player in matchup %}
+<div class="h-100 text-white bg-dark" style=" width:49%;  display:inline-grid; padding: 5px 3px 3px">
+				<a  href="{% url 'articles:index' player.heroId 0%}" style="text-decoration: none; color: white;">
+					<h2 style="text-align: center; font-family: Lucida Console, Courier, monospace;">{{player.heroName}}
+						<img src="{{player.heroIcon }}" alt="" >
+					</h2>
+				</a>
+				<table class="table table-dark table-stripped">
+          <thead>
+          <tr>
+            <th scope="col" class="col-context-holder">K
+							<span class="context">Kills</span></th>
+            <th scope="col" class="col-context-holder">D
+							<span class="context">Deaths</span></th>
+            <th scope="col" class="col-context-holder">A
+							<span class="context">Assists</span></th>
+            <th scope="col" class="col-context-holder">LH
+							<span class="context">LastHits</span></th>
+            <th scope="col" class="col-context-holder">DN
+							<span class="context">Denies</span></th>
+            <th scope="col" class="col-context-holder">NW
+							<span class="context">Networth</span></th>
+						<th scope="col" class="col-context-holder">Lane
+							<span class="context">Lane</span></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th style="color: green;">{{player.kills}}</th>
+            <td  style="color: red;">{{player.deaths}}</td>
+            <td>{{player.assists}}</td>
+            <td>{{player.lastHits}}</td>
+						<td>{{player.denies}}</td>
+						<td name="1-show" style="display:none; background-color: #4d4d4d;">{{player.networthTiming.300}}</td>
+						<td name="2-show" style="display:none; background-color: #4d4d4d;">{{player.networthTiming.600}}</td>
+						<td name="3-show" style="display:none; background-color: #4d4d4d;">{{player.networthTiming.900}}</td>
+						<td name="4-show" style="display:block; background-color: #4d4d4d;">{{player.networth}}</td>
+						{% if player.drawLane  %}
+								<td style="background-color: #5b5b5b; border: 3px solid #9b9b9b">DRAW lane</td>
+						{% else %}
+							{% if player.winLane  %}
+									<td style="background-color: #5b5b5b; border: 3px solid #035c0c;">WIN lane</td>
+							{% else %}
+									<td style="background-color:#5b5b5b ; border: 3px solid #970000;">LOSE lane</td>
+							{% endif %}
+						{% endif %}
+          </tr>
+          </tbody>
+        </table>
+
+				<div  class="container" name="1-show"  style="display:none; background-color: #373b49; padding: 10px 10px;">
+				{% for ability in player.abilitiesTiming %}
+				{% if ability.timeInMin <= 5 %}
+					<div class="context-holder">
+						<img src="{{ability.icon}}" width="40" height="40" >
+						<div class="item-time">{{ability.time}}</div>
+						<span class="context">{{ability.name}}</span>
+					</div>
+				{% endif %}
+				{% endfor %}
+				</div>
+				<div  class="container" name="2-show"  style="display:none; background-color: #373b49; padding: 10px 10px;">
+				{% for ability in player.abilitiesTiming %}
+				{% if ability.timeInMin <= 10 %}
+					<div class="context-holder">
+						<img src="{{ability.icon}}" width="40" height="40" >
+						<div class="item-time">{{ability.time}}</div>
+						<span class="context">{{ability.name}}</span>
+					</div>
+				{% endif %}
+				{% endfor %}
+				</div>
+				<div  class="container" name="3-show"  style="display:none; background-color: #373b49; padding: 10px 10px;">
+				{% for ability in player.abilitiesTiming %}
+				{% if ability.timeInMin <= 15 %}
+					<div class="context-holder">
+						<img src="{{ability.icon}}" width="40" height="40" >
+						<div class="item-time">{{ability.time}}</div>
+						<span class="context">{{ability.name}}</span>
+					</div>
+				{% endif %}
+				{% endfor %}
+				</div>
+				<div  class="container" name="4-show" style="display:block; background-color: #373b49; padding: 10px 10px;">
+				{% for ability in player.abilitiesTiming %}
+					<div class="context-holder">
+						<img src="{{ability.icon}}" width="40" height="40" >
+						<div class="item-time">{{ability.time}}</div>
+						<span class="context">{{ability.name}}</span>
+					</div>
+				{% endfor %}
+				</div>
+
+				<br>
+
+				<div  class="container" name="1-show" style="display:none; background-color: #373b49; padding: 10px 10px;">
+					{% for item in player.purchase %}
+					{% if item.timeInMin <= 5 %}
+						{% if item.core %}
+						<div class="context-holder" style="outline: 2px solid yellow;">
+							<img src="{{item.icon}}" width="45" height="35" >
+							<div class="item-time">{{item.time}}</div>
+							<span class="context">{{item.name}}</span>
+						</div>
+						{% elif item.timeInMin < 0 %}
+						<div class="context-holder" style="outline: 5px solid #00a7b7;">
+							<img src="{{item.icon}}" width="45" height="35" >
+							<div class="item-time">{{item.time}}</div>
+							<span class="context">{{item.name}}</span>
+						</div>
+						{% else %}
+						<div class="context-holder" >
+							<img src="{{item.icon}}" width="50" height="40" >
+							<div class="item-time">{{item.time}}</div>
+							<span class="context">{{item.name}}</span>
+						</div>
+						{% endif %}
+					{% endif %}
+					{% endfor %}
+				</div>
+				<div  class="container" name="2-show" style="display:none; background-color: #373b49; padding: 10px 10px;">
+					{% for item in player.purchase %}
+					{% if item.timeInMin <= 10 %}
+					{% if item.core %}
+					<div class="context-holder" style="outline: 1px solid yellow;">
+						<img src="{{item.icon}}" width="45" height="35" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% elif item.timeInMin < 0 %}
+					<div class="context-holder" style="outline: 5px solid #00a7b7;">
+						<img src="{{item.icon}}" width="45" height="35" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% else %}
+					<div class="context-holder" >
+						<img src="{{item.icon}}" width="50" height="40" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% endif %}
+					{% endif %}
+					{% endfor %}
+				</div>
+				<div  class="container" name="3-show" style="display:none; background-color: #373b49; padding: 10px 10px;">
+					{% for item in player.purchase %}
+					{% if item.timeInMin <= 15 %}
+					{% if item.core %}
+					<div class="context-holder" style="outline: 1px solid yellow;">
+						<img src="{{item.icon}}" width="45" height="35" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% elif item.timeInMin < 0 %}
+					<div class="context-holder" style="outline: 5px solid #00a7b7;">
+						<img src="{{item.icon}}" width="45" height="35" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% else %}
+					<div class="context-holder" >
+						<img src="{{item.icon}}" width="50" height="40" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% endif %}
+					{% endif %}
+					{% endfor %}
+				</div>
+				<div  class="container" name="4-show" style="display:block; background-color: #373b49; padding: 10px 10px;">
+					{% for item in player.purchase %}
+					{% if item.core %}
+					<div class="context-holder" style="outline: 1px solid yellow;">
+						<img src="{{item.icon}}" width="45" height="35" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% elif item.timeInMin < 0 %}
+					<div class="context-holder" style="outline: 5px solid #00a7b7;">
+						<img src="{{item.icon}}" width="45" height="35" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% else %}
+					<div class="context-holder" >
+						<img src="{{item.icon}}" width="50" height="40" >
+						<div class="item-time">{{item.time}}</div>
+						<span class="context">{{item.name}}</span>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+
+</div>
+	{% endfor %}
+	<div style="position: relative; background-color: #4a4a4a; padding: 5px;">
+	<a href="https://stratz.com/match/{{matchup.0.matchId}}" target="_blank" >
+		<img src="https://www.dota2protracker.com/static/images/stratz.png" width="30" height="30" >
+	</a>
+	<a href="https://ru.dotabuff.com/matches/{{matchup.0.matchId}}" target="_blank" >
+		<img src="https://www.dota2protracker.com/static/images/dotabuff.png" width="30" height="30" >
+	</a>
+	<a href="https://www.opendota.com/matches/{{matchup.0.matchId}}" target="_blank" >
+		<img src="https://www.dota2protracker.com/static/images/opendota.png" width="30" height="30" >
+	</a>
+	</div>
+	</div>
+</div>
+<br>
+<br>
+{% endfor %}
+
+{% else %}
+<div class="container" style="width: 100%; color: white; margin-top: 25%; font-family: Lucida Console, Courier, monospace; ">
+	<h1 style="text-align: center; font-family: Lucida Console, Courier, monospace;">No data</h1>
+	<p style="text-align: center;">Sorry, we are still gathering information about this matchup</p>
+	<p style="text-align: center;">it will appear here soon</p>
+</div>
+{% endif %}
+
+<script >
+
+	function o()
+	{
+		var btn;
+		if(document.getElementById("1") == document.activeElement) {btn="1";}
+		if(document.getElementById("2") == document.activeElement) {btn="2";}
+		if(document.getElementById("3") == document.activeElement) {btn="3";}
+		if(document.getElementById("4") == document.activeElement) {btn="4";}
+
+		for (var i = 1; i < 5; i++) {
+			if(i.toString()==btn)
+			{
+				for(var j=0;j<document.getElementsByName(i.toString()+"-show").length;j++){
+					document.getElementsByName(btn+"-show")[j].style.display = "block";
+				}
+			}
+			else {
+				for(var j=0;j<document.getElementsByName(i.toString()+"-show").length;j++){
+					document.getElementsByName(i.toString()+"-show")[j].style.display = "none";
+				}
+			}
+		}
+	}
+
+document.getElementById("1").onclick=o;
+document.getElementById("2").onclick=o;
+document.getElementById("3").onclick=o;
+document.getElementById("4").onclick=o;
+
+</script>
+
+{% endblock %}

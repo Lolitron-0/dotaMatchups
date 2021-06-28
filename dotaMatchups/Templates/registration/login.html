@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+
+<div class="container" style="width: 500px;">
+	<h1 class="h3 mb-3 fw-normal">ВХОД</h1>
+	<form  action="{% url 'articles:auth'%}" method="POST">
+		{% csrf_token %}
+    	<!--<img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+    	<div class="form-floating">
+    	  	<input type="login" class="form-control" id="floatingInput" placeholder="name@example.com" name="login">
+    	  	<label for="floatingInput">Имя</label>
+    	</div>
+    	<div class="form-floating" style="margin-top: 10px;">
+    	 	 <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+    	 	 <label for="floatingPassword">Пароль</label>
+    	</div>
+    	<button class="w-100 btn btn-lg btn-primary" type="submit" style="margin-top: 10px;">Войти</button>
+    	<p class="mt-5 mb-3 text-muted">© 2017–2021</p>
+  </form>
+</div>
+
+<!--
+<form method="post" action="{% url 'login' %}">
+	{% csrf_token %}
+	<table>
+	
+		<tr>
+		 	<td>{{ form.username.label_tag }}</td>
+		 	<td>{{ form.username }}</td>
+		</tr>м
+		
+		<tr>
+		 	<td>{{ form.password.label_tag }}</td>
+		 	<td>{{ form.password }}</td>
+		</tr>
+	</table>
+	
+	<input type="submit" value="login" />
+	<input type="hidden" name="next" value="{{ next }}" /> 
+</form>
+-->
+
+
+{% endblock %}

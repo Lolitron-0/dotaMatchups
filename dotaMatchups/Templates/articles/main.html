@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" id="link1"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" id="link2"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" id="link3"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js" id="link4"></script>
+
+
+    <script>
+        function o()
+        {
+          var a= document.getElementById('select1').value;
+          var b= document.getElementById('select2').value;
+          if(a==0) a=1;
+          if(b==0) b=1;
+          if(a==1) a=0;
+          if(b==1) b=0;
+          document.getElementById('input1').value=a;
+          document.getElementById('input2').value=b;
+          document.getElementById('form').submit();
+        }
+    </script>
+      <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column" style=" height:100%; ">
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 500px">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4" class=""></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="4" aria-label="Slide 5" class=""></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="5" aria-label="Slide 6" class=""></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="6" aria-label="Slide 7" class=""></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active"style="height: 500px">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+
+        <div class="container">
+           <div class="carousel-caption text-start">
+             <h1>Latest matches</h1>
+             <p>Just press arrow on the right.</p>
+           </div>
+         </div>
+       </div>
+       <div class="carousel-item" style="height: 500px">
+         <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+
+        <!--{% for match in latest %}
+        <div class="container">
+          <div class="carousel-caption">
+            <a href="{% url 'articles:index' match.0.heroId match.1.heroId %}" style=" color: white;">
+              {% if match.0.winLane %}
+                <h1>{{match.0.heroName}} won lane against {{match.1.heroName}}</h1>
+              {% elif match.0.drawLane%}
+                <h1>{{match.0.heroName}} drew lane against {{match.1.heroName}}</h1>
+              {% else %}
+                <h1>{{match.0.heroName}} lost lane against {{match.1.heroName}}</h1>
+              {% endif %}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item" style="height: 500px">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+        {% endfor %}-->
+
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Networth of the day</h1>
+            <a href="{% url 'articles:index' latest.0.0.heroId latest.0.1.heroId %}" style=" color: white; display: inline;">
+              <h4>
+              <img src="{{latest.0.0.heroIcon}}"></img>
+              {% if latest.0.0.winLane %}
+                won lane against
+              {% endif %}
+              <img src="{{latest.0.1.heroIcon}}"></img>
+              </h4>
+            </a>
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item" style="height: 500px">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+
+
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1>One more for good measure.</h1>
+            <p>Some representative placeholder content for the third slide of this carousel.</p>
+          </div>
+        </div>
+        </div>
+        </div>
+
+
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+    <form  action="{% url 'articles:main' %}" method="POST" id="form"  style="margin-top: 10%;">
+      {% csrf_token %}
+
+      <select  class="selectpicker" data-style="btn-secondary"  data-live-search="true" id="select1" >
+        <option value=1></option>
+        <option value=0>Anti-Mage</option>
+        <option value=2>Axe</option>
+        <option value=3>Bane</option>
+        <option value=4>Bloodseeker</option>
+        <option value=5>Crystal Maiden</option>
+        <option value=6>Drow Ranger</option>
+        <option value=7>Earthshaker</option>
+        <option value=8>Juggernaut</option>
+        <option value=9>Mirana</option>
+        <option value=10>Morphling</option>
+        <option value=11>Shadow Fiend</option>
+        <option value=12>Phantom Lancer</option>
+        <option value=13>Puck</option>
+        <option value=14>Pudge</option>
+        <option value=15>Razor</option>
+        <option value=16>Sand King</option>
+        <option value=17>Storm Spirit</option>
+        <option value=18>Sven</option>
+        <option value=19>Tiny</option>
+        <option value=20>Vengeful Spirit</option>
+        <option value=21>Windranger</option>
+        <option value=22>Zeus</option>
+        <option value=23>Kunkka</option>
+        <option value=25>Lina</option>
+        <option value=26>Lion</option>
+        <option value=27>Shadow Shaman</option>
+        <option value=28>Slardar</option>
+        <option value=29>Tidehunter</option>
+        <option value=30>Witch Doctor</option>
+        <option value=31>Lich</option>
+        <option value=32>Riki</option>
+        <option value=33>Enigma</option>
+        <option value=34>Tinker</option>
+        <option value=35>Sniper</option>
+        <option value=36>Necrophos</option>
+        <option value=37>Warlock</option>
+        <option value=38>Beastmaster</option>
+        <option value=39>Queen of Pain</option>
+        <option value=40>Venomancer</option>
+        <option value=41>Faceless Void</option>
+        <option value=42>Wraith King</option>
+        <option value=43>Death Prophet</option>
+        <option value=44>Phantom Assassin</option>
+        <option value=45>Pugna</option>
+        <option value=46>Templar Assassin</option>
+        <option value=47>Viper</option>
+        <option value=48>Luna</option>
+        <option value=49>Dragon Knight</option>
+        <option value=50>Dazzle</option>
+        <option value=51>Clockwerk</option>
+        <option value=52>Leshrac</option>
+        <option value=53>Nature's Prophet</option>
+        <option value=54>Lifestealer</option>
+        <option value=55>Dark Seer</option>
+        <option value=56>Clinkz</option>
+        <option value=57>Omniknight</option>
+        <option value=58>Enchantress</option>
+        <option value=59>Huskar</option>
+        <option value=60>Night Stalker</option>
+        <option value=61>Broodmother</option>
+        <option value=62>Bounty Hunter</option>
+        <option value=63>Weaver</option>
+        <option value=64>Jakiro</option>
+        <option value=65>Batrider</option>
+        <option value=66>Chen</option>
+        <option value=67>Spectre</option>
+        <option value=68>Ancient Apparition</option>
+        <option value=69>Doom</option>
+        <option value=70>Ursa</option>
+        <option value=71>Spirit Breaker</option>
+        <option value=72>Gyrocopter</option>
+        <option value=73>Alchemist</option>
+        <option value=74>Invoker</option>
+        <option value=75>Silencer</option>
+        <option value=76>Outworld Destroyer</option>
+        <option value=77>Lycan</option>
+        <option value=78>Brewmaster</option>
+        <option value=79>Shadow Demon</option>
+        <option value=80>Lone Druid</option>
+        <option value=81>Chaos Knight</option>
+        <option value=82>Meepo</option>
+        <option value=83>Treant Protector</option>
+        <option value=84>Ogre Magi</option>
+        <option value=85>Undying</option>
+        <option value=86>Rubick</option>
+        <option value=87>Disruptor</option>
+        <option value=88>Nyx Assassin</option>
+        <option value=89>Naga Siren</option>
+        <option value=90>Keeper of the Light</option>
+        <option value=91>Io</option>
+        <option value=92>Visage</option>
+        <option value=93>Slark</option>
+        <option value=94>Medusa</option>
+        <option value=95>Troll Warlord</option>
+        <option value=96>Centaur Warrunner</option>
+        <option value=97>Magnus</option>
+        <option value=98>Timbersaw</option>
+        <option value=99>Bristleback</option>
+        <option value=100>Tusk</option>
+        <option value=101>Skywrath Mage</option>
+        <option value=102>Abaddon</option>
+        <option value=103>Elder Titan</option>
+        <option value=104>Legion Commander</option>
+        <option value=105>Techies</option>
+        <option value=106>Ember Spirit</option>
+        <option value=107>Earth Spirit</option>
+        <option value=108>Underlord</option>
+        <option value=109>Terrorblade</option>
+        <option value=110>Phoenix</option>
+        <option value=111>Oracle</option>
+        <option value=112>Winter Wyvern</option>
+        <option value=113>Arc Warden</option>
+        <option value=114>Monkey King</option>
+        <option value=119>Dark Willow</option>
+        <option value=120>Pangolier</option>
+        <option value=121>Grimstroke</option>
+        <option value=123>Hoodwink</option>
+        <option value=126>Void Spirit</option>
+        <option value=128>Snapfire</option>
+        <option value=129>Mars</option>
+        <option value=135>Dawnbreaker</option>
+
+      </select>
+      <select  class="selectpicker" data-style="btn-secondary"  data-live-search="true" id="select2">
+        <option value=1></option>
+        <option value=0>Anti-Mage</option>
+        <option value=2>Axe</option>
+        <option value=3>Bane</option>
+        <option value=4>Bloodseeker</option>
+        <option value=5>Crystal Maiden</option>
+        <option value=6>Drow Ranger</option>
+        <option value=7>Earthshaker</option>
+        <option value=8>Juggernaut</option>
+        <option value=9>Mirana</option>
+        <option value=10>Morphling</option>
+        <option value=11>Shadow Fiend</option>
+        <option value=12>Phantom Lancer</option>
+        <option value=13>Puck</option>
+        <option value=14>Pudge</option>
+        <option value=15>Razor</option>
+        <option value=16>Sand King</option>
+        <option value=17>Storm Spirit</option>
+        <option value=18>Sven</option>
+        <option value=19>Tiny</option>
+        <option value=20>Vengeful Spirit</option>
+        <option value=21>Windranger</option>
+        <option value=22>Zeus</option>
+        <option value=23>Kunkka</option>
+        <option value=25>Lina</option>
+        <option value=26>Lion</option>
+        <option value=27>Shadow Shaman</option>
+        <option value=28>Slardar</option>
+        <option value=29>Tidehunter</option>
+        <option value=30>Witch Doctor</option>
+        <option value=31>Lich</option>
+        <option value=32>Riki</option>
+        <option value=33>Enigma</option>
+        <option value=34>Tinker</option>
+        <option value=35>Sniper</option>
+        <option value=36>Necrophos</option>
+        <option value=37>Warlock</option>
+        <option value=38>Beastmaster</option>
+        <option value=39>Queen of Pain</option>
+        <option value=40>Venomancer</option>
+        <option value=41>Faceless Void</option>
+        <option value=42>Wraith King</option>
+        <option value=43>Death Prophet</option>
+        <option value=44>Phantom Assassin</option>
+        <option value=45>Pugna</option>
+        <option value=46>Templar Assassin</option>
+        <option value=47>Viper</option>
+        <option value=48>Luna</option>
+        <option value=49>Dragon Knight</option>
+        <option value=50>Dazzle</option>
+        <option value=51>Clockwerk</option>
+        <option value=52>Leshrac</option>
+        <option value=53>Nature's Prophet</option>
+        <option value=54>Lifestealer</option>
+        <option value=55>Dark Seer</option>
+        <option value=56>Clinkz</option>
+        <option value=57>Omniknight</option>
+        <option value=58>Enchantress</option>
+        <option value=59>Huskar</option>
+        <option value=60>Night Stalker</option>
+        <option value=61>Broodmother</option>
+        <option value=62>Bounty Hunter</option>
+        <option value=63>Weaver</option>
+        <option value=64>Jakiro</option>
+        <option value=65>Batrider</option>
+        <option value=66>Chen</option>
+        <option value=67>Spectre</option>
+        <option value=68>Ancient Apparition</option>
+        <option value=69>Doom</option>
+        <option value=70>Ursa</option>
+        <option value=71>Spirit Breaker</option>
+        <option value=72>Gyrocopter</option>
+        <option value=73>Alchemist</option>
+        <option value=74>Invoker</option>
+        <option value=75>Silencer</option>
+        <option value=76>Outworld Destroyer</option>
+        <option value=77>Lycan</option>
+        <option value=78>Brewmaster</option>
+        <option value=79>Shadow Demon</option>
+        <option value=80>Lone Druid</option>
+        <option value=81>Chaos Knight</option>
+        <option value=82>Meepo</option>
+        <option value=83>Treant Protector</option>
+        <option value=84>Ogre Magi</option>
+        <option value=85>Undying</option>
+        <option value=86>Rubick</option>
+        <option value=87>Disruptor</option>
+        <option value=88>Nyx Assassin</option>
+        <option value=89>Naga Siren</option>
+        <option value=90>Keeper of the Light</option>
+        <option value=91>Io</option>
+        <option value=92>Visage</option>
+        <option value=93>Slark</option>
+        <option value=94>Medusa</option>
+        <option value=95>Troll Warlord</option>
+        <option value=96>Centaur Warrunner</option>
+        <option value=97>Magnus</option>
+        <option value=98>Timbersaw</option>
+        <option value=99>Bristleback</option>
+        <option value=100>Tusk</option>
+        <option value=101>Skywrath Mage</option>
+        <option value=102>Abaddon</option>
+        <option value=103>Elder Titan</option>
+        <option value=104>Legion Commander</option>
+        <option value=105>Techies</option>
+        <option value=106>Ember Spirit</option>
+        <option value=107>Earth Spirit</option>
+        <option value=108>Underlord</option>
+        <option value=109>Terrorblade</option>
+        <option value=110>Phoenix</option>
+        <option value=111>Oracle</option>
+        <option value=112>Winter Wyvern</option>
+        <option value=113>Arc Warden</option>
+        <option value=114>Monkey King</option>
+        <option value=119>Dark Willow</option>
+        <option value=120>Pangolier</option>
+        <option value=121>Grimstroke</option>
+        <option value=123>Hoodwink</option>
+        <option value=126>Void Spirit</option>
+        <option value=128>Snapfire</option>
+        <option value=129>Mars</option>
+        <option value=135>Dawnbreaker</option>
+
+      </select>
+<br>
+      <input type="text" name="choice1" id="input1" style="visibility: hidden;">
+      <input type="text" name="choice2" id="input2" style="visibility: hidden;">
+      <br>
+      <br>
+      <a class="btn btn-light"  onclick="o();" id="btn" style="width: 400px; background-color: rgb(24, 26, 32);  border: 1px solid white; color: white">Поиск</a>
+    </form>
+    </div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}

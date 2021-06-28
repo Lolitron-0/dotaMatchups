@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}{{article.title}}{% endblock %}
+
+{% block content %}
+<div class="container" style=" width: auto; ">
+	<h2>{{article.title}}</h2>
+	<a>{{article.text}}</a><br> <br>
+	<em>{{article.pub_date}}</em>
+
+	<hr>
+	<hr>
+
+	<br>
+	<h3><em>Комментарии</em></h3>
+	<br>
+	<br>
+
+	<div class="container" style="width: auto; margin-left: 0px; border-radius: 5px; background-color: rgb(204, 204, 204);"> <br>
+	{% if comments_list %}
+		{% for comment in comments_list %}
+			<div class="bg-light p-1 rounded">
+   				<h4 >{{comment.author_name}}</h4>
+    			<p style="margin-left: 20px">{{comment.comment_text}}</p>
+  			</div>
+  		<br>
+		{% endfor %}
+	{% else %}
+		Нет комментариев <br> <br>
+	{% endif %}
+
+	</div>
+
+
+
+	<table class="table table-dark table-stripped">
+          <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Player</th>
+            <th scope="col">K/D/A</th>
+            <th scope="col">Lane</th>
+          </tr>
+          </thead>
+          <tbody>
+          	{% for player in players %}
+        				<tr>
+            				<th scope="row"></th>
+            				<td>
+            				<span style="font-size: 17px;">{{player.name}}</span>
+            				<span style="font-size: 12px;">({{player.hero}})</span>
+            				</td>
+            				<td>
+            					<span style="color:green;">{{player.kills}}</span>/
+            					<span style="color:red;">{{player.deaths}}</span>/
+            					<span style="color:white;">{{player.assists}}</span>
+            				</td>
+            				<td>{{player.lane}}</td>
+          			</tr>
+
+					{% endfor %}
+          </tbody>
+        </table>
+
+	<br>
+	<br>
+		<hr>
+	<br>
+	<br>
+
+	<h3><em>Оставьте комментарий</em></h3>
+	<br>
+	<br>
+
+<div class="container" style="width: 500px; margin-left: 0px;">
+	<form action="{% url 'articles:leave_comment' article.id %}" method="POST">
+
+		{% csrf_token %}
+		<div class="form-floating">
+			<input type="text" class="form-control" required placeholder="Имя" name="name"><br>
+			<label for="floatingInput">Имя</label>
+		</div>
+		<div class="form-floating">
+			<textarea class="form-control" name="text" required placeholder="Текст комментария" style="height: 100px;"></textarea><br>
+			<label for="floatingInput">Комментарий</label>
+		</div>
+		<button class="w-100 btn btn-lg btn-dark" type="submit">Опубликовать</button> <br> <br>
+	</form>
+</div>
+
+</div>
+{% endblock %}
