@@ -14,7 +14,7 @@
 </div>
 <br>
 <div style=" display: grid;">
-	<table class="table table-dark table-stripped" style=" width: max-content; justify-self: center; align-self: center; ">
+	<table class="table" style="color: white; width: max-content; justify-self: center; align-self: center;  ">
 		<thead>
 		<tr>
 			<th scope="col">Winrate left</th>
@@ -24,31 +24,43 @@
 		<tbody>
 		<tr>
 			{% if winrateLeft > 50 %}
-			<th style=" color: green; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateLeft}}</th>
-			<th style=" color: #bf0000; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateRight}}</th>
+			<th style=" color: green; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateLeft}}%</th>
+			<th style=" color: #bf0000; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateRight}}%</th>
 			{% else %}
-			<th style=" color: #bf0000; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateLeft}}</th>
-			<th style=" color: green; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateRight}}</th>
+			<th style=" color: #bf0000; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateLeft}}%</th>
+			<th style=" color: green; text-align: center; font-family: Lucida Console, Courier, monospace; ">{{winrateRight}}%</th>
 			{% endif %}
 		</tbody>
 	</table>
-
-	<div style="display: inline; position: relative; left: 0; right: 0; ">
+	</div>
+	<div style="position: sticky;  top: 0; z-index:3; padding: 20px; background-color: rgb(24, 26, 32);  border-radius: 10px;">
 		<button type="button" id="1" class="btn btn-outline-light" >5:00</button>
 		<button type="button" id="2" class="btn btn-outline-light" >10:00</button>
 		<button type="button" id="3" class="btn btn-outline-light">15:00</button>
 		<button type="button" id="4" class="btn btn-outline-light">>20:00</button>
-
 	</div>
-	</div>
-	<br><br>
+	<br>
 {% for matchup in data %}
 <div style="background-color: #212529; height: max-content; ">
+	<div style="position: relative;  padding: 5px;">
+	<a href="https://stratz.com/match/{{matchup.0.matchId}}" target="_blank" >
+		<img src="https://www.dota2protracker.com/static/images/stratz.png" width="20" height="20" >
+	</a>
+	<a href="https://ru.dotabuff.com/matches/{{matchup.0.matchId}}" target="_blank" >
+		<img src="https://www.dota2protracker.com/static/images/dotabuff.png" width="20" height="20" >
+	</a>
+	<a href="https://www.opendota.com/matches/{{matchup.0.matchId}}" target="_blank" >
+		<img src="https://www.dota2protracker.com/static/images/opendota.png" width="20" height="20" >
+	</a>
+	</div>
 	{% for player in matchup %}
 <div class="h-100 text-white bg-dark" style=" width:49%;  display:inline-grid; padding: 5px 3px 3px">
-				<a  href="{% url 'articles:index' player.heroId 0%}" style="text-decoration: none; color: white;">
+				<a  href="{% url 'articles:index' player.heroId 0%}" style="text-decoration: none; color: white; display: inline;">
 					<h2 style="text-align: center; font-family: Lucida Console, Courier, monospace;">{{player.heroName}}
-						<img src="{{player.heroIcon }}" alt="" >
+						<img src="{{player.heroIcon }}">
+						{% if player.isVictory %}
+						<span style="font-size: 15px; background-color: #55555b; border-radius: 5px; padding: 3px; border: 2px solid #018a15;">WINNER</span>
+						{% endif %}
 					</h2>
 				</a>
 				<table class="table table-dark table-stripped">
@@ -66,8 +78,8 @@
 							<span class="context">Denies</span></th>
             <th scope="col" class="col-context-holder">NW
 							<span class="context">Networth</span></th>
-						<th scope="col" class="col-context-holder">Lane
-							<span class="context">Lane</span></th>
+						<th scope="col" >Lane</th>
+						<th scope="col" >Team</th>
           </tr>
           </thead>
           <tbody>
@@ -87,9 +99,14 @@
 							{% if player.winLane  %}
 									<td style="background-color: #5b5b5b; border: 3px solid #035c0c;">WIN lane</td>
 							{% else %}
-									<td style="background-color:#5b5b5b ; border: 3px solid #970000;">LOSE lane</td>
+									<td style="background-color:#5b5b5b ; border: 3px solid #970000; ">LOSE lane</td>
 							{% endif %}
 						{% endif %}
+							<td style="width: 30%;">
+								{% for teammate in player.team %}
+								<img src="{{ teammate.icon }}" height=25px>
+								{% endfor %}
+							</td>
           </tr>
           </tbody>
         </table>
@@ -156,7 +173,7 @@
 						</div>
 						{% else %}
 						<div class="context-holder" >
-							<img src="{{item.icon}}" width="50" height="40" >
+							<img src="{{item.icon}}" width="45" height="35" >
 							<div class="item-time">{{item.time}}</div>
 							<span class="context">{{item.name}}</span>
 						</div>
@@ -181,7 +198,7 @@
 					</div>
 					{% else %}
 					<div class="context-holder" >
-						<img src="{{item.icon}}" width="50" height="40" >
+						<img src="{{item.icon}}" width="45" height="35" >
 						<div class="item-time">{{item.time}}</div>
 						<span class="context">{{item.name}}</span>
 					</div>
@@ -206,7 +223,7 @@
 					</div>
 					{% else %}
 					<div class="context-holder" >
-						<img src="{{item.icon}}" width="50" height="40" >
+						<img src="{{item.icon}}" width="45" height="35" >
 						<div class="item-time">{{item.time}}</div>
 						<span class="context">{{item.name}}</span>
 					</div>
@@ -230,7 +247,7 @@
 					</div>
 					{% else %}
 					<div class="context-holder" >
-						<img src="{{item.icon}}" width="50" height="40" >
+						<img src="{{item.icon}}" width="45" height="35" >
 						<div class="item-time">{{item.time}}</div>
 						<span class="context">{{item.name}}</span>
 					</div>
@@ -240,17 +257,9 @@
 
 </div>
 	{% endfor %}
-	<div style="position: relative; background-color: #4a4a4a; padding: 5px;">
-	<a href="https://stratz.com/match/{{matchup.0.matchId}}" target="_blank" >
-		<img src="https://www.dota2protracker.com/static/images/stratz.png" width="30" height="30" >
-	</a>
-	<a href="https://ru.dotabuff.com/matches/{{matchup.0.matchId}}" target="_blank" >
-		<img src="https://www.dota2protracker.com/static/images/dotabuff.png" width="30" height="30" >
-	</a>
-	<a href="https://www.opendota.com/matches/{{matchup.0.matchId}}" target="_blank" >
-		<img src="https://www.dota2protracker.com/static/images/opendota.png" width="30" height="30" >
-	</a>
-	</div>
+
+	<br><br>
+
 	</div>
 </div>
 <br>

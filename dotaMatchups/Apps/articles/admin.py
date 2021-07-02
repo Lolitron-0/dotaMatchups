@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Article,Comment,Match, FullData
+from .models import Match, FullData
 
-admin.site.register(Article)
-admin.site.register(Comment)
 admin.site.register(Match)
 admin.site.register(FullData)

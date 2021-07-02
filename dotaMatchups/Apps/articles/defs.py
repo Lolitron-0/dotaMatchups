@@ -55,7 +55,7 @@ def normalize(pair):
 			key!='spiritBearInventoryEvents':
 				result[key]=player['playbackData'][key]
 		player['playbackData']=result
-		return str(pair)
+	return str(pair)
 
 def selectFromDB(id1,id2):
 	if id1==0 and id2==0:
@@ -128,7 +128,7 @@ def extractItems(purchaseEvents1, purchaseEvents2 ,evaled):
 	def addToPurchased(mas,event):
 		min=str(event['time']//60)
 		sec=("0" if abs(event['time'])%60<10 else "")+str(abs(event['time'])%60)
-		core=itemInfo[itemNames[str(event['item'])]]['cost']>2000
+		core=itemInfo[itemNames[str(event['item'])]]['created'] or itemNames[str(event['item'])] in ['blink', "bottle", 'infused_raindrop', 'boots']
 		if event['time']//60<=10 :
 			mas.append({
 			"name":itemInfo[itemNames[str(event['item'])]]['dname'],
